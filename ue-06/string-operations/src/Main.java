@@ -1,6 +1,6 @@
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class Main {
     @Test
@@ -41,19 +41,48 @@ public class Main {
     }
 
     @Test
-    public void testReverseWords() {
-
-    }
-
-    @Test
     public void testIsPalindrome() {
+        assertFalse(isPalindrome("hello"));
+        assertFalse(isPalindrome("HelloWorld"));
+        assertFalse(isPalindrome("12345"));
 
+        assertTrue(isPalindrome("a"));
+        assertTrue(isPalindrome("racecar"));
+        assertTrue(isPalindrome("RaceCar"));
+        assertTrue(isPalindrome(""));
+        assertTrue(isPalindrome("     "));
+        assertTrue(isPalindrome("12321"));
+
+        assertTrue(isPalindrome("A man, a plan, a canal, Panama"));
+        assertTrue(isPalindrome("Step on no pets!"));
+        assertTrue(isPalindrome("Mr. Owl ate my metal worm."));
+        assertTrue(isPalindrome("Do geese see God?"));
+        assertTrue(isPalindrome("Yo, Banana Boy!"));
+        assertTrue(isPalindrome("Able was I, I saw Elba."));
+        assertTrue(isPalindrome("No lemon, no melon!"));
+        assertTrue(isPalindrome("Eva, can I see bees in a cave?"));
+        assertTrue(isPalindrome("Was it a car or a cat I saw? Was it a car or a cat I saw?"));
+
+        assertTrue(isPalindrome("A1B2C2B1A"));
+        assertTrue(isPalindrome("9a8b7c7b8a9"));
+        assertTrue(isPalindrome("11.22.33..22.11"));
+        assertTrue(isPalindrome("abcdedcbaabcdedcba"));
+        assertTrue(isPalindrome("1234554321racecar1234554321"));
     }
 
     public static int countWords(String text) {
         return getWords(text).length;
     }
 
+    /*
+     * Reverse all words in a sentence
+     *
+     * First the text is split by spaces and special characters, then each word is reversed
+     * and the text is rebuilt
+     *
+     * This ensures, that all spaces and special characters are kept in their original
+     * position and only letters will be reversed
+     */
     public static String reverseWords(String text) {
         String[] splitText = getWordsAndSpaces(text);
 
@@ -68,9 +97,20 @@ public class Main {
         return String.join("", splitText);
     }
 
+    /*
+     * Check if a string is a palindrome
+     *
+     * First the string is converted to lowercase and filters out special characters,
+     * then it is checked if the string is symmetrical.
+     *
+     * "A man, a plan, a canal, Panama" => is a palindrome even tho spaces
+     * and special characters are not symmetrical
+     */
     public static boolean isPalindrome(String text) {
-        for(int i = 0; i < text.length() / 2; i++) {
-            if(text.charAt(i) != text.charAt(text.length()-i-1)) {
+        String filteredText = text.toLowerCase().replaceAll("[^\\wÄÖÜäöüß&]", "");
+
+        for(int i = 0; i < filteredText.length() / 2; i++) {
+            if(filteredText.charAt(i) != filteredText.charAt(filteredText.length()-i-1)) {
                 return false;
             }
         }
@@ -78,6 +118,12 @@ public class Main {
         return true;
     }
 
+    /*
+     * Split text by spaces characters
+     *
+     * First special characters are filtered out, then the text is split by spaces
+     * this ensures, that special characters are not counted as words (e.g. "abcd , abcd" => 2 words)
+     */
     protected static String[] getWords(String text) {
         String trimmedText = text
                 .replaceAll("[^\\wÄÖÜäöüß&\\s]", "")
@@ -90,6 +136,10 @@ public class Main {
         return trimmedText.split("[^\\wÄÖÜäöüß&]+");
     }
 
+    /*
+     * Split text by spaces and special characters, but keep them in the result array
+     * This is needed, so the string can be rebuilt later
+     */
     protected static String[] getWordsAndSpaces(String text) {
         if(text.isEmpty()) {
             return new String[0];
@@ -98,6 +148,9 @@ public class Main {
         return text.split("(?<=\\W)|(?=\\W)");
     }
 
+    /*
+     * Use StringBuilder to reverse a string
+     */
     protected static String reverseString(String text) {
         StringBuilder sb = new StringBuilder(text);
         return sb.reverse().toString();

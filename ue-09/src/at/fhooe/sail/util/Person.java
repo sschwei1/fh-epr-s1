@@ -1,3 +1,5 @@
+package at.fhooe.sail.util;
+
 public class Person {
     private String firstname;
     private String lastname;
@@ -43,6 +45,11 @@ public class Person {
         this.phone = phone;
     }
 
+    /**
+     * Formats the person as a string
+     *
+     * @return the string representation of the person
+     */
     public String toString() {
         return String.format(
                 "%s %s (%s, %s)",
@@ -51,5 +58,35 @@ public class Person {
                 this.email,
                 this.phone
         );
+    }
+
+    /**
+     * Compares two persons
+     *
+     * @param other - the other person to compare
+     * @return true if the persons are equal, false otherwise
+     */
+    public boolean equals(Person other) {
+        if(other == null) {
+            return false;
+        }
+
+        return this.equals(other.firstname, other.lastname);
+    }
+
+    /**
+     * Compares a person with a first and last name
+     *
+     * @param firstname - the first name of the person
+     * @param lastname  - the last name of the person
+     * @return true if the persons are equal, false otherwise
+     */
+    public boolean equals(String firstname, String lastname) {
+        if(firstname == null || lastname == null) {
+            return false;
+        }
+
+        return this.firstname.equals(firstname) &&
+               this.lastname.equals(lastname);
     }
 }

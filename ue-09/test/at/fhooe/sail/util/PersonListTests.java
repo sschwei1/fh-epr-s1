@@ -48,6 +48,11 @@ public class PersonListTests {
         somePerson.setFirstname("William");
         somePerson.setLastname("Wilson");
         assertFalse(list.add(somePerson));
+
+        /*
+         * Insertion of null
+         */
+        assertFalse(list.add(null));
     }
 
     @Test
@@ -80,6 +85,18 @@ public class PersonListTests {
          * Removing from an empty list
          */
         removed = list.remove("John", "Smith");
+        assertNull(removed);
+
+        /*
+         * Removing with name null
+         */
+        removed = list.remove(null, "Smith");
+        assertNull(removed);
+
+        removed = list.remove("John", null);
+        assertNull(removed);
+
+        removed = list.remove(null, null);
         assertNull(removed);
     }
 
@@ -146,6 +163,18 @@ public class PersonListTests {
 
         found = list.search("Sophia", "Davis");
         assertNull(found);
+
+        /*
+         * Search with name null
+         */
+        found = list.search(null, "Smith");
+        assertNull(found);
+
+        found = list.search("John", null);
+        assertNull(found);
+
+        found = list.search(null, null);
+        assertNull(found);
     }
 
     @Test
@@ -187,14 +216,66 @@ public class PersonListTests {
          */
         nonExisting = list.getNthElement(0);
         assertNull(nonExisting);
+
+        /*
+         * Get element with negative index
+         */
+        nonExisting = list.getNthElement(-1);
+        assertNull(nonExisting);
     }
 
     @Test
     public void testToString() {
         PersonList list = PersonListTests.getTestList();
-        System.out.println(list.toString());
+
+        /*
+         * Check the string representation of the list
+         */
+        String expected = """
+                HEAD
+                 -> John Smith (john.smith@example.com, +1-555-123-4567)
+                 -> Emma Johnson (emma.johnson@example.com, +1-555-234-5678)
+                 -> Michael Brown (michael.brown@example.com, +1-555-345-6789)
+                 -> Sophia Davis (sophia.davis@example.com, +1-555-456-7890)
+                 -> William Wilson (william.wilson@example.com, +1-555-567-8901)
+                 -> NULL
+                """;
+        assertEquals(expected.trim(), list.toString());
+
+        /*
+         * Remove elements and re-check the string representation
+         */
+        list.remove("Michael", "Brown");
+        list.remove("Sophia", "Davis");
+        expected = """
+                HEAD
+                 -> John Smith (john.smith@example.com, +1-555-123-4567)
+                 -> Emma Johnson (emma.johnson@example.com, +1-555-234-5678)
+                 -> William Wilson (william.wilson@example.com, +1-555-567-8901)
+                 -> NULL
+                """;
+        assertEquals(expected.trim(), list.toString());
+
+        /*
+         * Check string representation of an empty list
+         */
         list.clear();
-        System.out.println(list.toString());
+        expected = """
+                HEAD
+                 -> NULL
+                """;
+        assertEquals(expected.trim(), list.toString());
+
+        /*
+         * Add new element and re-check the string representation
+         */
+        list.add(new Person("John", "Smith", "john.smith@example.com", "+1-555-123-4567"));
+        expected = """
+                HEAD
+                 -> John Smith (john.smith@example.com, +1-555-123-4567)
+                 -> NULL
+                """;
+        assertEquals(expected.trim(), list.toString());
     }
 
     @Test
@@ -223,6 +304,21 @@ public class PersonListTests {
          */
         list.clear();
         this.testArrayEquality(list);
+
+        /*
+         * Check from array to array
+         */
+        Person[] testArray = new Person[]{
+                new Person("John", "Smith", "john.smith@example.com", "+1-555-123-4567"),
+                new Person("Emma", "Johnson", "emma.johnson@example.com", "+1-555-234-5678"),
+                new Person("Michael", "Brown", "michael.brown@example.com", "+1-555-345-6789"),
+        };
+
+        for(Person p : testArray) {
+            list.add(p);
+        }
+
+        assertArrayEquals(testArray, list.toArray());
     }
 
     private void testArrayEquality(PersonList list) {

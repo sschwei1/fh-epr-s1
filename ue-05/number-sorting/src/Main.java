@@ -86,14 +86,10 @@ public class Main {
 
     public static void main(String[] args) {
         /*
-         * I am using make PROJECT=number-sorting to run
-         * this program, so my base filepath is always the
-         * root directory and not the project directory.
-         *
-         * I tried to change the execution path in the makefile
-         * and some other tricks, however none of the worked,
-         * so I am fine referencing the folder where the file is
-         * located
+         * I am using an IntelliJ project with 2 submodules where each
+         * submodule is one of the exercises, however files need to be
+         * specified relative to the project directory, not relative to
+         * the module directory.
          */
         In.open("./number-sorting/input.txt");
         Out.open("./number-sorting/output.txt");
@@ -113,12 +109,30 @@ public class Main {
      * @param row - row which need to be sorted
      */
     protected static void sort(int[] row) {
+        /*
+         * Go from 0 to row.length - 1 because we check ahead 1 element.
+         * If we ran till row.length we would try to access an element
+         * at an index out of bounds.
+         */
         for(int i = 0; i < row.length - 1; i++) {
+
+            /*
+             * Go from 0 to row.length - 1 - i, so we do not make
+             * unnecessary checks for elements already sorted.
+             */
             for(int j = 0; j < row.length - 1 - i; j++) {
+
+                /*
+                 * If element at index + 1 is bigger than the element
+                 * at index, they do not need to be swapped
+                 */
                 if(row[j+1] >= row[j]) {
                     continue;
                 }
 
+                /*
+                 * Swap element at index + 1 with element at index
+                 */
                 int temp = row[j];
                 row[j] = row[j+1];
                 row[j+1] = temp;

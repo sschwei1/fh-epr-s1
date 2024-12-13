@@ -1,18 +1,20 @@
+package at.fhooe.sail.util;
+
 public class PersonNode {
-    private Person data;
+    private Person person;
     private PersonNode next;
 
-    public PersonNode(Person data) {
-        this.data = data;
+    public PersonNode(Person person) {
+        this.person = person;
         this.next = null;
     }
 
-    public Person getData() {
-        return data;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setData(Person data) {
-        this.data = data;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public PersonNode getNext() {

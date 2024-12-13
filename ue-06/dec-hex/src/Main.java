@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        Out.print("Geben Sie eine positive ganze Zahl ein (Ende mit Eingabe < 0): ");
+        Out.print("Geben Sie eine positive ganze Zahl ein (neg. Zahl = Ende): ");
         int n = In.readInt();
 
         while(In.done()) {
@@ -10,9 +10,11 @@ public class Main {
 
             printHex(n);
             Out.println();
-            Out.print("Geben Sie eine positive ganze Zahl ein (Ende mit Eingabe < 0): ");
+            Out.print("Geben Sie eine positive ganze Zahl ein (neg. Zahl = Ende): ");
             n = In.readInt();
         }
+
+        Out.println("\n<program ended>");
     }
 
     protected static void printHex(int n) {

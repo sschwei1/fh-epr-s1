@@ -1,8 +1,5 @@
-7
+5
 0 "VW Golf ABS Wheel Speed Sensor" 20
 1 "Audi Q7 Wiper Motor Front" 4
 2 "Mercedes Fog Light Bulb" 17
 3 "Porsche 911 Front Oil Cooler" 8
-7 "Test" 7
-2 "aaa" 2
-4 "Some other test" 77
